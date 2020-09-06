@@ -14,7 +14,7 @@ Please check following links:
 
 ## File descriptions
 
-* __init__.py - entry point (***UPDATED - new, more stable version)
+* __init__.py - entry point (***UPDATED - new, more stable version***)
 * tfw.py - training framework containing whole logic for training models (***REMOVED***)
 * model.py - CycleGAN classes (***REMOVED***)
 * data.py - pipelines (***REMOVED***)
