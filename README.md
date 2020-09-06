@@ -1,4 +1,6 @@
-# CycleGAN implementation in Tensorflow 2.2 with custom training loop for CPU/multi GPU/vCPU MirroredStrategy.
+# UPDATED for Tensorflow 2.3.
+
+# CycleGAN implementation in Tensorflow 2.3 with custom training loop for CPU/multi GPU/vCPU MirroredStrategy.
 
 Tested on CPU, vCPU and Nvidia DGX GPU(s).
 
