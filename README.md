@@ -9,7 +9,7 @@ Please check following links:
   - https://www.tensorflow.org/guide/distributed_training#using_tfdistributestrategy_with_custom_training_loops
 * Tensorflow virtual GPUs: 
   - https://www.tensorflow.org/guide/gpu
- * Datasets:
+* Datasets:
   - https://people.eecs.berkeley.edu/%7Etaesung_park/CycleGAN/datasets/
 
 ## File descriptions
