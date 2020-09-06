@@ -9,16 +9,18 @@ Please check following links:
   - https://www.tensorflow.org/guide/distributed_training#using_tfdistributestrategy_with_custom_training_loops
 * Tensorflow virtual GPUs: 
   - https://www.tensorflow.org/guide/gpu
+ * Datasets:
+  - https://people.eecs.berkeley.edu/%7Etaesung_park/CycleGAN/datasets/
 
 ## File descriptions
 
-* __init__.py - entry point
-* tfw.py - training framework containing whole logic for training models
-* model.py - CycleGAN classes
-* data.py - pipelines
-* save_load.py - loading and saving models
+* __init__.py - entry point (***UPDATED - new, more stable version)
+* tfw.py - training framework containing whole logic for training models (***REMOVED***)
+* model.py - CycleGAN classes (***REMOVED***)
+* data.py - pipelines (***REMOVED***)
+* save_load.py - loading and saving models (***REMOVED***)
 
 ## Directory descriptions
 
 * images - contains trainA and trainB subdirectories from https://people.eecs.berkeley.edu/~taesung_park/CycleGAN/datasets/horse2zebra.zip
-* model - contains saved models
+* checkpoints - contains saved models
