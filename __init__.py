@@ -172,6 +172,18 @@ def add_plot(image, title, index):
     plt.axis('off')
 
 
+
+def get_tensors_from_perreplica(per_replica):
+# based on: https://github.com/tensorflow/tensorflow/blob/8d25e4bf616b7ae4ed101c580a23421616bf674c/tensorflow/python/distribute/values.py#L332
+    if strategy.num_replicas_in_sync > 1:
+        tensors_list = per_replica.values
+        y = tf.concat(tensors_list, axis=0)
+    else:
+        y = per_replica
+    
+    return y
+
+
 def generate_image(generator_g, generator_f, sample_horse, sample_zebra, epoch=1):
 
     plt.figure(figsize=(4 * 4, TEST_SIZE * 4))
@@ -184,8 +196,14 @@ def generate_image(generator_g, generator_f, sample_horse, sample_zebra, epoch=1
         sample_zebra = tf.expand_dims(sample_zebra, 0)
 
 
-    horse_gen   = (strategy.run(generator_g, args=(sample_horse,)) + 1) / 2
-    zebra_gen   = (strategy.run(generator_f, args=(sample_zebra,)) + 1) / 2
+    horse_gen   = strategy.run(generator_g, args=(sample_horse,))
+    zebra_gen   = strategy.run(generator_f, args=(sample_zebra,))
+
+    horse_gen = (get_tensors_from_perreplica(horse_gen) + 1) / 2
+    zebra_gen = (get_tensors_from_perreplica(zebra_gen) + 1) / 2
+
+    cprint('horse_gen[0]:')
+    print(horse_gen[0])
 
     for i in range(TEST_SIZE):
         add_plot(horse[i], 'input', 1 + 4 * i)
@@ -245,6 +263,7 @@ for epoch in range(restored_epoch + 1, EPOCHS):
     n = 0
     for inputs in zip(train_horses, train_zebras):
         strategy.run(train_step, args=(inputs,))
+
         
         if n % 10 == 0:
             cprint('.', end='')
