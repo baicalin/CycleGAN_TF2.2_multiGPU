@@ -105,8 +105,6 @@ with strategy.scope():
 
     train_horses    = strategy.experimental_distribute_dataset(train_horses)
     train_zebras    = strategy.experimental_distribute_dataset(train_zebras)
-    test_horses    = strategy.experimental_distribute_dataset(test_horses)
-    test_zebras    = strategy.experimental_distribute_dataset(test_zebras)
 
     for sample_horse in test_horses: break
     for sample_zebra in test_zebras: break
