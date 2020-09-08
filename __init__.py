@@ -105,6 +105,8 @@ with strategy.scope():
 
     train_horses    = strategy.experimental_distribute_dataset(train_horses)
     train_zebras    = strategy.experimental_distribute_dataset(train_zebras)
+    test_horses    = strategy.experimental_distribute_dataset(test_horses)
+    test_zebras    = strategy.experimental_distribute_dataset(test_zebras)
 
     for sample_horse in test_horses: break
     for sample_zebra in test_zebras: break
@@ -172,7 +174,6 @@ def add_plot(image, title, index):
     plt.axis('off')
 
 
-
 def get_tensors_from_perreplica(per_replica):
 # based on: https://github.com/tensorflow/tensorflow/blob/8d25e4bf616b7ae4ed101c580a23421616bf674c/tensorflow/python/distribute/values.py#L332
     if strategy.num_replicas_in_sync > 1:
@@ -184,6 +185,7 @@ def get_tensors_from_perreplica(per_replica):
     return y
 
 
+# Eager mode
 def generate_image(generator_g, generator_f, sample_horse, sample_zebra, epoch=1):
 
     plt.figure(figsize=(4 * 4, TEST_SIZE * 4))
@@ -202,8 +204,6 @@ def generate_image(generator_g, generator_f, sample_horse, sample_zebra, epoch=1
     horse_gen = (get_tensors_from_perreplica(horse_gen) + 1) / 2
     zebra_gen = (get_tensors_from_perreplica(zebra_gen) + 1) / 2
 
-    cprint('horse_gen[0]:')
-    print(horse_gen[0])
 
     for i in range(TEST_SIZE):
         add_plot(horse[i], 'input', 1 + 4 * i)
