@@ -45,7 +45,7 @@ def calculate_buffer_size():
     buffer_size = a_buffer_size
     if b_buffer_size < a_buffer_size: buffer_size = b_buffer_size
 
-    buffer_size = buffer_size - (buffer_size % BATCH_SIZE) 
+    buffer_size = buffer_size - (buffer_size % BATCH_SIZE)
 
     return buffer_size, a_buffer_size, b_buffer_size
 
@@ -179,7 +179,7 @@ def get_tensors_from_perreplica(per_replica):
         y = tf.concat(tensors_list, axis=0)
     else:
         y = per_replica
-    
+
     return y
 
 
@@ -222,7 +222,7 @@ def train_step(inputs):
 
         fake_x      = generator_f(real_y, training=True)
         cycled_y    = generator_g(fake_x, training=True)
-        
+
         same_x      = generator_f(real_x, training=True)
         same_y      = generator_g(real_y, training=True)
 
@@ -254,15 +254,19 @@ def train_step(inputs):
 
     return total_gen_g_loss, total_gen_f_loss, disc_x_loss, disc_y_loss
 
+@tf.function
+def non_eager_run(strategy, train_step, inputs):
+    strategy.run(train_step, args=(inputs,))
 
 for epoch in range(restored_epoch + 1, EPOCHS):
     start = time.time()
 
     n = 0
     for inputs in zip(train_horses, train_zebras):
-        strategy.run(train_step, args=(inputs,))
+        non_eager_run(strategy, train_step, inputs)
+        # strategy.run(train_step, args=(inputs,))
 
-        
+
         if n % 10 == 0:
             cprint('.', end='')
         n+=1
